@@ -15,7 +15,9 @@ Cosine similarity uses only the [CLS] token for both query and document represen
 ---
 
 ## Model Description
-The model uses embeddings learned from the distilbert model on HotPotQA dataset's train and dev set. In the distance metrics, the JS divergence function is defined in "Sentence-transformers" and the "MTEB" repositories to be used for training and testing respectively. This repository is used for testing on the test subset using the trained model.
+The model uses embeddings learned from the distilbert model on HotPotQA dataset's train and dev set. In the distance metrics, the JS divergence function is defined in "Sentence-transformers" and the "MTEB" repositories to be used for training and testing respectively. This repository is used for testing using the model trained by beir on test subset of HotPotQA dataset.
+
+---
 
 ## Final Results
 Information Clamping in range epsilon=1e-6
@@ -48,11 +50,11 @@ Hence, reducing the range gives better results.
 2. conda activate myenv39
 3. pip install --upgrade pip --index-url https://pypi.org/simple
 4. pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
-5. git clone https://github.com/gnatesan/sentence-transformers-3.4.1.git
-6. git clone https://github.com/gnatesan/mteb-1.34.14.git
-7. pip install -e /path_to_sentence-transformers/sentence-transformers-3.4.1
-8. pip install -e /path_to_mteb/mteb-1.34.14
-9. git clone https://github.com/gnatesan/beir.git
+5. git clone https://github.com/ChhaviDixit/beir.git
+6. git clone https://github.com/ChhaviDixit/mteb.git
+7. pip install -e /path_to_sentence-transformers/sentence-transformers
+8. pip install -e /path_to_mteb/mteb
+9. git clone https://github.com/ChhaviDixit/beir.git
 
 ### Wandb Dashboard
 View training and evaluation metrics here: https://wandb.ai/wisebayes-columbia-university/HPML-Energy?nw=nwuserwisebayes
@@ -61,8 +63,8 @@ View training and evaluation metrics here: https://wandb.ai/wisebayes-columbia-u
 1. conda create --name testenv python=3.9
 2. conda activate testenv
 3. pip install --upgrade pip --index-url https://pypi.org/simple
-4. pip install sentence-transformers==3.4.1
-5. pip install mteb==1.34.26
+4. pip install sentence-transformers
+5. pip install mteb
 6. sbatch inference_CosSim.sh (Make sure the batch script calls eval_dataset.py and a baseline model is being used. *i.e. model = SentenceTransformer("Snowflake/snowflake-arctic-embed-m-v1.5")*)
 7. Cross reference the inference results with what is on the leaderboard. https://huggingface.co/spaces/mteb/leaderboard
 
@@ -70,7 +72,7 @@ View training and evaluation metrics here: https://wandb.ai/wisebayes-columbia-u
 1. cd /path_to_beir/beir/examples/retrieval/training
 2. Before running training, make sure the model, model_name, and hyperparameters (LR, scale) are correct. 
 nano train_sbert_latest_2.py or nano train_sbert_ddp_2.py to change model, model_name, and LR. 
-nano sentence-transformers-3.4.1/sentence-transformers/losses/MultipleNegativesRankingLoss.py to change scale. 
+nano sentence-transformers/sentence-transformers/losses/MultipleNegativesRankingLoss.py to change scale. 
 3. sbatch train.sh OR sbatch train_ddp.sh if using multiple GPUs
 4. Trained model will be saved in /path_to_beir/beir/examples/retrieval/training/output
 
