@@ -1,6 +1,49 @@
-# Energy Distance Project Training and Inference Instructions
 
-## Setting up Python Environment and Installing Required Libraries
+# HPML Project: IBM Project 8: Energy Distance in IR Tasks
+
+## Team Information
+- **Members**:
+  - Chhavi Dixit (CD3496)
+  - Chandhru Karthick (CK3255)
+  - Elie Gross (EG3346)
+
+---
+
+## Problem Statement
+Cosine similarity uses only the [CLS] token for both query and document representation. It specifically focuses on the angle between the two vectors and overlooks statistical distribution of data. This leads to loss of information for long context retrieval while there is no actual “distance” between query and vector. The project is exploring new distance metrics and use-cases to be used alongside cosine similarity. The focus here is on retrieval tasks, as improving retrieval is a huge bump in modern language model pipelines where retrieval errors propagate multiplicatively down the line. If it can generalize well to long queries as expected we would be able to deal with long context IR with better precision. We are exploring three modeuls, exploring hamming distance within Energy distance, exploring JS Diveregence a an alternate distance metric, testing performance on other benchmark datasets. This repository focuses on implementing and testing JS Divergence as distance metric.
+
+---
+
+## Model Description
+The model uses embeddings learned from the distilbert model on HotPotQA dataset's train and dev set. In the distance metrics, the JS divergence function is defined in "Sentence-transformers" and the "MTEB" repositories to be used for training and testing respectively. This repository is used for testing on the test subset using the trained model.
+
+## Final Results
+Information Clamping in range epsilon=1e-6
+| Metric               | Value       |
+|----------------------|-------------|
+| ndcg at 1 | 0.0023      |
+| ndcg at 3    | 0.00282    |
+| ndcg at 5           | 0.00349       |
+| ndcg at 10      | 0.00443       |
+| ndcg at 100  | 0.00557        |
+| ndcg at 1000               | 0.02107 |
+
+Information Clamping in range epsilon=1e-5
+| Metric               | Value       |
+|----------------------|-------------|
+| ndcg at 1 | 0.07549      |
+| ndcg at 3    | 0.06435    |
+| ndcg at 5           | 0.07129       |
+| ndcg at 10      | 0.0821       |
+| ndcg at 100  | 0.10972        |
+| ndcg at 1000               | 0.13704 |
+
+Hence, reducing the range gives better results.
+
+
+## Reproducibility Instructions: Energy Distance Project Training and Inference
+
+### Setting up Python Environment and Installing Required Libraries
 1. conda create --name myenv39 python=3.9
 2. conda activate myenv39
 3. pip install --upgrade pip --index-url https://pypi.org/simple
@@ -11,7 +54,10 @@
 8. pip install -e /path_to_mteb/mteb-1.34.14
 9. git clone https://github.com/gnatesan/beir.git
 
-## Sanity Check
+### Wandb Dashboard
+View training and evaluation metrics here: https://wandb.ai/wisebayes-columbia-university/HPML-Energy?nw=nwuserwisebayes
+
+### Sanity Check
 1. conda create --name testenv python=3.9
 2. conda activate testenv
 3. pip install --upgrade pip --index-url https://pypi.org/simple
@@ -20,7 +66,7 @@
 6. sbatch inference_CosSim.sh (Make sure the batch script calls eval_dataset.py and a baseline model is being used. *i.e. model = SentenceTransformer("Snowflake/snowflake-arctic-embed-m-v1.5")*)
 7. Cross reference the inference results with what is on the leaderboard. https://huggingface.co/spaces/mteb/leaderboard
 
-## Model Training
+### Model Training
 1. cd /path_to_beir/beir/examples/retrieval/training
 2. Before running training, make sure the model, model_name, and hyperparameters (LR, scale) are correct. 
 nano train_sbert_latest_2.py or nano train_sbert_ddp_2.py to change model, model_name, and LR. 
@@ -28,28 +74,12 @@ nano sentence-transformers-3.4.1/sentence-transformers/losses/MultipleNegativesR
 3. sbatch train.sh OR sbatch train_ddp.sh if using multiple GPUs
 4. Trained model will be saved in /path_to_beir/beir/examples/retrieval/training/output
 
-## Model Evaluation
+### Model Evaluation
 1. sbatch inference_ED.sh if evaluating an ED trained model (myenv39 conda environment must be setup)
 2. sbatch inference_CosSim.sh if evaluating a cosine similarity trained model (testenv conda environment must be setup)
 3. Make sure the proper python script in the batch file is being run (if evaluating entire dataset or subset based on query lengths)
 
-## RPI Cluster Setup
-1. ssh <username>@blp01.ccni.rpi.edu
-2. ssh nplfen01 (Access NPL front-end node x86)
-3. cd ~/barn
-4. Follow instructions to install Conda on x86 https://docs.cci.rpi.edu/software/Conda/ (Make sure conda is installed in barn directory)
-5. echo 'export PATH="$HOME/miniconda3x86/condabin:$PATH"' >> ~/.bashrc
-6. source ~/.bashrc 
-7. export http_proxy=http://proxy:8888
-export https_proxy=$http_proxy\
-source /gpfs/u/home/MSSV/MSSVntsn/barn/miniconda3x86/etc/profile.d/conda.sh\
-export TMPDIR=~/barn\
-export TRANSFORMERS_CACHE=/gpfs/u/home/MSSV/MSSVntsn/barn\
-export HF_HOME=/gpfs/u/home/MSSV/MSSVntsn/barn\
-(Step 7 needs to be done every time you log in to the node, replace MSSVntsn with your username)
-
-
-## IMPORTANT FILES
+### IMPORTANT FILES
 1. train.sh - Batch script to run model training on a single GPU.  
 2. train_ddp.sh - Batch script to run model training on multiple GPUs. Make sure number of GPUs requested are properly set.
 3. inference_ED.sh - Batch script to run inference on an ED trained model. Can run on either entire dataset or subset based on query lengths.
@@ -59,6 +89,5 @@ export HF_HOME=/gpfs/u/home/MSSV/MSSVntsn/barn\
 7. eval_dataset.py - Python script to run inference on entire BEIR dataset.
 8. eval_dataset_subset_length.py - Python script to run inference on subset of BEIR dataset based on query lengths.
 
-## IMPORTANT NOTES
-1. All files used for training should be present when you clone the gnatesan/beir repository in beir/examples/retrieval/training folder.
-2. If working on the RPI cluster NPL node make sure that all installations occur in the ~/barn directory due to larger memory storage. 
+### IMPORTANT NOTES
+1. All files used for training should be present when you clone the beir repository in beir/examples/retrieval/training folder.
