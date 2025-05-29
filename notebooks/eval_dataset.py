@@ -17,8 +17,9 @@ print("Using device:", device)
 
 # Define the sentence-transformers model name MAKE SURE THE MODEL, DATASET, HYPERPARAMETERS, AND QUERY LENGTHS BEING USED ARE CORRECT
 #model_name = "distilbert-base-uncased_ED-hotpotqa-lr1e-05-epochs10-zeropadding_noepsilon_temperature200_full_test_sanitycheck"
-#model_name = "distilbert-base-uncased_ED-hotpotqa-lr2e-05-epochs10-temperature100_full_dev_test_queries_less_than_13"
-#model_name = "distilbert-base-uncased_CosSim-hotpotqa-lr2e-05-epochs10-temperature20_full_dev_test_queries_13_to_17"
+#model_name = "distilbert-base-uncased_ED-fever-lr2e-05-epochs10-temperature20_full_dev_full_test"
+# model_name = "distilbert-base-uncased_CosSim-fever-lr2e-05-epochs10-temperature20_full_dev_full_test"
+model_name = "/insomnia001/home/cd3496/beir/examples/retrieval/training/output/distilbert-base-uncased-hotpotqa-lr1e-5-epochs10-temperature20_full_dev/checkpoint-106250"
 #model_name = "distilbert-base-uncased_CosSim-hotpotqa-lr2e-05-epochs10-temperature200_full_test"
 # model_name = "distilbert-base-uncased_ED-fever-lr2e-05-epochs10-temperature20_full_dev_queries_15"
 model_name = "/insomnia001/home/cd3496/beir/examples/retrieval/training/output/distilbert-base-uncased-hotpotqa-lr1e-5-epochs10-temperature20_full_dev/checkpoint-106250"
@@ -26,9 +27,8 @@ model_name = "/insomnia001/home/cd3496/beir/examples/retrieval/training/output/d
 start_time = time.time()  # Record the start time
 
 # Load the model
-#model = SentenceTransformer("/moto/home/ggn2104/beir/examples/retrieval/training/output/distilbert-base-uncased_CosSim-fever-lr2e-05-epochs10-temperature20_full_dev")
 model = SentenceTransformer("/insomnia001/home/cd3496/beir/examples/retrieval/training/output/distilbert-base-uncased-hotpotqa-lr1e-5-epochs10-temperature20_full_dev/checkpoint-106250")
-#model = SentenceTransformer("Snowflake/snowflake-arctic-embed-m-v1.5")
+#model = SentenceTransformer(model_name)
 model = model.to(device)  # Ensure the model is loaded to the correct device
 
 # Load the task from MTEB
