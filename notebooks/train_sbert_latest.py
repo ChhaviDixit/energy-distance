@@ -148,7 +148,7 @@ for lr in learning_rates:
             evaluation_strategy="epoch",  # Evaluate after each epoch
             save_total_limit=1,  # Keep only the best model
             load_best_model_at_end=True,  # ✅ Load the best model after training
-            metric_for_best_model="eval_hotpotqa-dev_cosine_ndcg@10",  # ✅ Use validation loss to determine the best model
+            metric_for_best_model="eval_hotpotqa-dev_js_div_ndcg@10",  # ✅ Use validation loss to determine the best model
             greater_is_better=True,  # ✅ Higher ndcg is better
         )
 
