@@ -1,51 +1,17 @@
+# Project Overview
+This research project explores the use of energy distance as a retrieval metric in dense information retrieval systems, with a focus on improving Retrieval-Augmented Generation (RAG) workflows. Unlike the traditional single-vector based cosine similarity, energy distance captures the full statistical distribution of multivector query embeddings, offering a more expressive similarity measure. Our work builds on earlier experiments conducted with the BEIR benchmark (specifically HotpotQA dataset) where energy distance demonstrated competitive performance with cosine similarity. More recently, we developed an efficient implementation of energy distance using torch.einsum, enabling parallel computation of multivector queries against single-vector document embeddings with minimal GPU overhead. To handle scalability challenges, we introduced dynamic query batching and padding-based tensor alignment, making it feasible to run full-batch evaluations across large corpora. These optimizations allow for multi-hop and complex queries to be better represented in embedding space. Encouraged by strong results on HotpotQA, especially with longer and more information-rich queries, we are now shifting our focus to the CodeSearchNet-CCR dataset under the COIR benchmark, which contains similarly long-form and structured queries. Preliminary results suggest that energy distance continues to outperform cosine similarity in these scenarios, supporting the hypothesis that multivector representations enhance retrieval quality in real-world QA and code search tasks. 
 
-# HPML Project: IBM Project 8: Energy Distance in IR Tasks
+To support this work, we extended two major libraries:
 
-## Team Information
-- **Members**:
-  - Chhavi Dixit (CD3496)
-  - Chandhru Karthick (CK3255)
-  - Elie Gross (EG3346)
+sentence-transformers-3.4.1 was modified to support token-level query embeddings during encoding and evaluation, as well as to integrate custom distance metrics like energy distance within the training and inference pipelines.
+**https://github.com/gnatesan/sentence-transformers-3.4.1**
 
----
-
-## Problem Statement
-Cosine similarity uses only the [CLS] token for both query and document representation. It specifically focuses on the angle between the two vectors and overlooks statistical distribution of data. This leads to loss of information for long context retrieval while there is no actual “distance” between query and vector. The project is exploring new distance metrics and use-cases to be used alongside cosine similarity. The focus here is on retrieval tasks, as improving retrieval is a huge bump in modern language model pipelines where retrieval errors propagate multiplicatively down the line. If it can generalize well to long queries as expected we would be able to deal with long context IR with better precision. We are exploring three modeuls, exploring hamming distance within Energy distance, exploring JS Diveregence a an alternate distance metric, testing performance on other benchmark datasets. This repository focuses on implementing and testing JS Divergence as distance metric.
-
----
-
-## Model Description
-The model uses embeddings learned from the distilbert model on HotPotQA dataset's train and dev set. In the distance metrics, the JS divergence function is defined in "Sentence-transformers" and the "MTEB" repositories to be used for training and testing respectively. This repository is used for testing using the model trained by beir on test subset of HotPotQA dataset.
-
----
-
-## Final Results
-Information Clamping in range epsilon=1e-6
-| Metric               | Value       |
-|----------------------|-------------|
-| ndcg at 1 | 0.0023      |
-| ndcg at 3    | 0.00282    |
-| ndcg at 5           | 0.00349       |
-| ndcg at 10      | 0.00443       |
-| ndcg at 100  | 0.00557        |
-| ndcg at 1000               | 0.02107 |
-
-Information Clamping in range epsilon=1e-5
-| Metric               | Value       |
-|----------------------|-------------|
-| ndcg at 1 | 0.07549      |
-| ndcg at 3    | 0.06435    |
-| ndcg at 5           | 0.07129       |
-| ndcg at 10      | 0.0821       |
-| ndcg at 100  | 0.10972        |
-| ndcg at 1000               | 0.13704 |
-
-Hence, reducing the range gives better results.
+mteb-1.34.14 was customized to support energy distance scoring and batched multivector evaluations across BEIR-format datasets, ensuring compatibility with standard IR benchmarks while enabling direct comparisons against cosine-based baselines. **https://github.com/gnatesan/mteb-1.34.14**
 
 
-## Reproducibility Instructions: Energy Distance Project Training and Inference
+# Energy Distance Project Training and Inference Instructions
 
-### Setting up Python Environment and Installing Required Libraries
+## Setting up Python Environment and Installing Required Libraries
 1. conda create --name myenv39 python=3.9
 2. conda activate myenv39
 3. pip install --upgrade pip --index-url https://pypi.org/simple
@@ -86,10 +52,13 @@ nano sentence-transformers/sentence-transformers/losses/MultipleNegativesRanking
 2. train_ddp.sh - Batch script to run model training on multiple GPUs. Make sure number of GPUs requested are properly set.
 3. inference_ED.sh - Batch script to run inference on an ED trained model. Can run on either entire dataset or subset based on query lengths.
 4. inference_CosSim.sh Batch script to run inference on a CosSim trained model. Can run on either entire dataset or subset based on query lengths.
-5. train_sbert_latest_2.py - Python script to run model training on a single GPU. Uses ir_evaluator to evaluate on a dev set after each epoch of training and only saves the best model, make sure ir_evaluator is enabled.
-6. train_sbert_ddp_2.py - Python script to run model training on multiple GPUs using DDP. Currently does not use an ir_evaluator to evaluate on a dev set after each epoch of training.
-7. eval_dataset.py - Python script to run inference on entire BEIR dataset.
-8. eval_dataset_subset_length.py - Python script to run inference on subset of BEIR dataset based on query lengths.
+5. train_sbert_latest_2.py - Python script to run model training on a BEIR dataset. Runs on a single GPU. Uses ir_evaluator to evaluate on a dev set after each epoch of training and only saves the best model, make sure ir_evaluator is enabled.
+6. train_sbert_ddp_2.py - Python script to run model training on multiple GPUs using PyTorch DDP on a BEIR dataset. Currently does not use an ir_evaluator to evaluate on a dev set after each epoch of training.
+7. train_sbert_ddp_coir.py - Python script to run model training for CodeSearchNet-CCR from COIR benchmark. Correctly preprocesses the 6 different languages in the dataset (go, python, java, javascript, ruby, php). Runs on multiple GPUs, no ir_evaluator used for dev set evaluation.
+8. train_sbert_ddp_coir_1epoch.py - Python script to load a saved model checkpoint and run model training for CodeSearchNet-CCR from COIR benchmark. Correctly preprocesses the 6 different languages in the dataset (go, python, java, javascript, ruby, php). Runs on multiple GPUs, no ir_evaluator used for dev set evaluation.
+9. train_sbert_ddp_coir_python.py - Python script run model training for only one programming language in CodeSearchNet-CCR from COIR benchmark. Language used for training is set to python but that can be changed. Runs on multiple GPUs, no ir_evaluator used for dev set evaluation.
+10. eval_dataset.py - Python script to run inference on entire BEIR dataset.
+11. eval_dataset_subset_length.py - Python script to run inference on subset of BEIR dataset based on query lengths.
 
 ### IMPORTANT NOTES
 1. All files used for training should be present when you clone the beir repository in beir/examples/retrieval/training folder.
