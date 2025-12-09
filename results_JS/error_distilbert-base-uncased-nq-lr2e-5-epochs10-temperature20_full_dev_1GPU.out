@@ -1,0 +1,12 @@
+[2025-10-31T16:13:57.068] error: TMPDIR [/local] is not writeable
+[2025-10-31T16:13:57.068] error: Setting TMPDIR to /tmp
+No sentence-transformers model found with name distilbert-base-uncased. Creating a new one with mean pooling.
+Traceback (most recent call last):
+  File "/insomnia001/home/cd3496/beir/examples/retrieval/training/train_sbert_latest_new.py", line 68, in <module>
+    corpus, queries, qrels = GenericDataLoader(data_path).load(split="train")
+  File "/insomnia001/home/cd3496/beir/beir/datasets/data_loader.py", line 64, in load
+    self.check(fIn=self.qrels_file, ext="tsv")
+  File "/insomnia001/home/cd3496/beir/beir/datasets/data_loader.py", line 30, in check
+    raise ValueError("File {} not present! Please provide accurate file.".format(fIn))
+ValueError: File /insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/nq/qrels/train.tsv not present! Please provide accurate file.
+srun: error: ins089: task 0: Exited with exit code 1

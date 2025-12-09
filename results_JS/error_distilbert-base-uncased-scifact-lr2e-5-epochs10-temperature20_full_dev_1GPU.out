@@ -1,0 +1,25 @@
+No sentence-transformers model found with name distilbert-base-uncased. Creating a new one with mean pooling.
+  0%|          | 0/5183 [00:00<?, ?it/s]100%|██████████| 5183/5183 [00:00<00:00, 173627.87it/s]
+  0%|          | 0/5183 [00:00<?, ?it/s]100%|██████████| 5183/5183 [00:00<00:00, 185901.01it/s]
+Computing widget examples:   0%|          | 0/1 [00:00<?, ?example/s]                                                                       0%|          | 0/580 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/insomnia001/home/cd3496/beir/examples/retrieval/training/train_sbert_latest_new.py", line 142, in <module>
+    trainer.train()
+  File "/insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/lib/python3.9/site-packages/transformers/trainer.py", line 2325, in train
+    return inner_training_loop(
+  File "/insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/lib/python3.9/site-packages/transformers/trainer.py", line 2674, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/lib/python3.9/site-packages/transformers/trainer.py", line 4020, in training_step
+    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+  File "/insomnia001/home/cd3496/sentence-transformers/sentence_transformers/trainer.py", line 406, in compute_loss
+    loss = loss_fn(features, labels)
+  File "/insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/insomnia001/home/cd3496/sentence-transformers/sentence_transformers/losses/MultipleNegativesRankingLoss.py", line 108, in forward
+    scores = self.similarity_fct(anchors, candidates) * self.scale
+  File "/insomnia001/home/cd3496/sentence-transformers/sentence_transformers/util.py", line 106, in js_div
+    raise ValueError("Negative Input")
+ValueError: Negative Input
+  0%|          | 0/580 [00:02<?, ?it/s]
+srun: error: ins093: task 0: Exited with exit code 1

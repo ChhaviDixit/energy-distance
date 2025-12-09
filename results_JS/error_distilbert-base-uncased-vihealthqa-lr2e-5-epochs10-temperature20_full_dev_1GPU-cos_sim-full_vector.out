@@ -1,0 +1,11 @@
+No sentence-transformers model found with name distilbert-base-uncased. Creating a new one with mean pooling.
+/insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/vihealthqa.zip:   0%|          | 0.00/2.13M [00:00<?, ?iB/s]/insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/vihealthqa.zip:   2%|▏         | 48.0k/2.13M [00:00<00:06, 340kiB/s]/insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/vihealthqa.zip:   9%|▉         | 192k/2.13M [00:00<00:02, 871kiB/s] /insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/vihealthqa.zip:  22%|██▏       | 480k/2.13M [00:00<00:01, 1.54MiB/s]/insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/vihealthqa.zip:  46%|████▌     | 0.98M/2.13M [00:00<00:00, 2.80MiB/s]/insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/vihealthqa.zip:  95%|█████████▌| 2.03M/2.13M [00:00<00:00, 5.45MiB/s]/insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/vihealthqa.zip: 100%|██████████| 2.13M/2.13M [00:00<00:00, 3.79MiB/s]
+  0%|          | 0/9896 [00:00<?, ?it/s]100%|██████████| 9896/9896 [00:00<00:00, 188355.78it/s]
+  0%|          | 0/9896 [00:00<?, ?it/s]100%|██████████| 9896/9896 [00:00<00:00, 195722.32it/s]
+Traceback (most recent call last):
+  File "/insomnia001/home/cd3496/beir/examples/retrieval/training/train_sbert_latest_new.py", line 70, in <module>
+    train_data = [{"query": queries[qid], "positive": corpus[pos_id]["text"]} for qid, pos_doc_ids in qrels.items() for pos_id in pos_doc_ids]
+  File "/insomnia001/home/cd3496/beir/examples/retrieval/training/train_sbert_latest_new.py", line 70, in <listcomp>
+    train_data = [{"query": queries[qid], "positive": corpus[pos_id]["text"]} for qid, pos_doc_ids in qrels.items() for pos_id in pos_doc_ids]
+KeyError: 'doc2019'
+srun: error: ins093: task 0: Exited with exit code 1

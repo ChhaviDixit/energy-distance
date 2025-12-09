@@ -1,0 +1,11 @@
+No sentence-transformers model found with name distilbert-base-uncased. Creating a new one with mean pooling.
+  0%|          | 0/5183 [00:00<?, ?it/s]100%|██████████| 5183/5183 [00:00<00:00, 176264.70it/s]
+Traceback (most recent call last):
+  File "/insomnia001/home/cd3496/beir/examples/retrieval/training/train_sbert_latest_new.py", line 66, in <module>
+    dev_corpus, dev_queries, dev_qrels = GenericDataLoader(data_path).load(split="dev")
+  File "/insomnia001/home/cd3496/beir/beir/datasets/data_loader.py", line 64, in load
+    self.check(fIn=self.qrels_file, ext="tsv")
+  File "/insomnia001/home/cd3496/beir/beir/datasets/data_loader.py", line 30, in check
+    raise ValueError("File {} not present! Please provide accurate file.".format(fIn))
+ValueError: File /insomnia001/home/cd3496/beir/examples/retrieval/training/datasets/scifact/qrels/dev.tsv not present! Please provide accurate file.
+srun: error: ins093: task 0: Exited with exit code 1

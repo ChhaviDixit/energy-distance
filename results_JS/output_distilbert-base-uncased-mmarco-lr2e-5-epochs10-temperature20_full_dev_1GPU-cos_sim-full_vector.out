@@ -1,0 +1,46 @@
+Fri Oct 31 11:45:27 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX A6000               Off |   00000000:C1:00.0 Off |                  Off |
+| 30%   36C    P0             70W /  300W |       0MiB /  49140MiB |      4%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+PYTHON EXE: /insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/bin/python
+PYTHON PATH[0]: /insomnia001/home/cd3496/beir/examples/retrieval/training
+torch version: 2.5.1+cu121 file: /insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/lib/python3.9/site-packages/torch/__init__.py
+transformers version: 4.57.1 file: /insomnia001/depts/edu/COMSE6998/cd3496/miniconda3/envs/myenvED/lib/python3.9/site-packages/transformers/__init__.py
+sentence_transformers version: 4.2.0.dev0 file: /insomnia001/home/cd3496/sentence-transformers/sentence_transformers/__init__.py
+CUDA_VISIBLE_DEVICES: 0
+cuda
+True
+NVIDIA RTX A6000
+1
+0
+Model similarity function: js_divergence
+Fri Oct 31 11:45:36 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX A6000               Off |   00000000:C1:00.0 Off |                  Off |
+| 30%   36C    P0             70W /  300W |       0MiB /  49140MiB |      4%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
